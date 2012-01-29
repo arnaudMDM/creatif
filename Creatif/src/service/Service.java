@@ -153,7 +153,7 @@ public class Service {
                   return listeOeuvres;
      }
      
-     public List<Oeuvre> rechercherOeuvreParNomEtParDate(String nomOeuvre,Date dateDeb, Date dateFin)
+     public List<Oeuvre> rechercherOeuvreParNomEtDate(String nomOeuvre,Date dateDeb, Date dateFin)
      {
          List<Oeuvre> listeOeuvres;
                   JpaUtil.openEntityManager();
@@ -178,7 +178,7 @@ public class Service {
                   return listeOeuvres;
      }
      
-          public List<Oeuvre> rechercherOeuvreParPrixEtNomEtParDate(String artiste, 
+          public List<Oeuvre> rechercherOeuvreParPrixEtNomEtDate(String artiste, 
                   float prix, Comparaison comparaison, Date dateDeb, Date dateFin)
      {
          List<Oeuvre> listeOeuvres;
