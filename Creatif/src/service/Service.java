@@ -54,8 +54,11 @@ public class Service {
      }
 
 
-     public int creerGallerie(Gallerie gallerie, Client client, List<Oeuvre> lOeuvre){
-         validite = 0;
+     public int creerGallerie(Gallerie gallerie, Client client, List<Oeuvre> lOeuvre){         
+         
+         if(lOeuvre.size() <= 10)
+         {    
+            validite = 0;
             JpaUtil.openEntityManager();
             EntityTransaction tx = null;
             client.ajouterGallerie(gallerie);
@@ -85,7 +88,13 @@ public class Service {
                validite = 1;
             }
             JpaUtil.closeEntityManager();
-            return validite;
+         }
+         else 
+         {
+             //Si il y a trop d'oeuvre dans le catalogue on renvoie la taille du catalogue
+             validite = lOeuvre.size();
+         }
+         return validite;
      }
 
      public int creerOeuvre(Oeuvre oeuvre, Artiste artiste)
