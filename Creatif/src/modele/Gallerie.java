@@ -43,17 +43,14 @@ public class Gallerie implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     protected Date dateFin;
     protected int prixTotal;
-    @Temporal(javax.persistence.TemporalType.DATE)
-    protected Date dateLivraison;
 
     public Gallerie() {
     }
 
-    public Gallerie( Date dateDebut, Date dateFin, int prixTotal, Date dateLivraison) {
+    public Gallerie( Date dateDebut, Date dateFin, int prixTotal) {
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.prixTotal = prixTotal;
-        this.dateLivraison = dateLivraison;
     }
 
     public int getGallerieId() {

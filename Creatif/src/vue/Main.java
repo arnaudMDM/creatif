@@ -42,9 +42,8 @@ public class Main {
 
         Date dateDeb = new Date(112,5,12);
         Date dateFin = new Date(112,5,28);
-        Date dateLivraison = new Date(112, 5, 10);
         int prixTotal = 2000;
-        Gallerie gallerie = new Gallerie(dateDeb,dateFin,prixTotal,dateLivraison);
+        Gallerie gallerie = new Gallerie(dateDeb,dateFin,prixTotal);
 //       listeGalleriesRef.add(gallerie);
 
         Artiste artiste = new Artiste("test ","C'est");
@@ -165,12 +164,12 @@ public class Main {
     public static List<Oeuvre> RechercheOeuvreParNom(Date dateDeb, Date dateFin)
     {
         List<Oeuvre> catalogue = null;
-        while(catalogue == null)
+        while(catalogue == null || catalogue.size() == 0)
         {
             String nom = Saisie.lireChaine("Indiquer le nom de l'oeuvre : ");
             catalogue = service.rechercherOeuvreParNomEtDate(nom, dateDeb, dateFin);
             AfficherCatalogue(catalogue);
-            if(catalogue == null)
+            if(catalogue.size() == 0)
             {
                 System.out.println("Aucune oeuvre trouvée");
             }
@@ -183,7 +182,7 @@ public class Main {
         List<Oeuvre> catalogue = null;
         boolean valide = false;
         String reponse = null;
-        while(catalogue == null)
+        while(catalogue == null || catalogue.size() == 0)
         {
             while (!valide) 
             {
@@ -218,7 +217,7 @@ public class Main {
             catalogue = service.rechercherOeuvreParPrixEtNomEtDate(artiste, prix, comp, dateDeb, dateFin);
 
             AfficherCatalogue(catalogue);
-            if(catalogue == null)
+            if(catalogue.size() == 0)
             {
                 System.out.println("Aucune oeuvre trouvée");
                 valide = false;
@@ -228,21 +227,16 @@ public class Main {
         return catalogue;
     }
     
-    public static void ValiderGallerie (List<Oeuvre> catalogue, Client unClient) {
-        
-        System.out.println("---Création d'une galerie \n\n"
-                + "date de début de location : 12/06/2012\n"
-                + "date de fin de location : 28/06/2012\n"
-                + "date de livraison de la gallerie : 11/06/2012\n\n"
-                + "Ajout du catalogue : \n");
-        
-        AfficherCatalogue(catalogue);
-        Date dateDeb = new Date(112,5,12);
-        Date dateFin = new Date(112,5,28);
-        Date dateLivraison = new Date(112, 5, 10);
+    public static void ValiderGallerie (List<Oeuvre> catalogue, Client unClient, Date dateDeb, Date dateFin) {
         int prixTotal = 2000;
-        Gallerie uneGallerie = new Gallerie(dateDeb,dateFin,prixTotal,dateLivraison);
+        Gallerie uneGallerie = new Gallerie(dateDeb,dateFin,prixTotal);
         service.creerGallerie(uneGallerie, unClient, catalogue);
+        System.out.println("Gallerie personnelle");
+        for(Oeuvre o : catalogue)
+        {
+            System.out.println(o.getArtiste().getNomArtiste() +'\t' + o.getTitre() 
+                    + '\t' + Float.toString(o.getPrix()) + " €");
+        }
     }
     
     public static Client Connexion() {
@@ -313,14 +307,18 @@ public class Main {
     }
     
     //renvoie vrai si oeuvre n'est pas présent dans catalogue
-    public static boolean ComparerOeuvreCatlogue(Oeuvre oeuvre, List<Oeuvre> catalogue)
+    public static boolean ComparerOeuvreListeOeuvres(Oeuvre oeuvre, List<Oeuvre> catalogue)
     {
-        for(Oeuvre o : catalogue)
+        if(catalogue.size() != 0)
         {
-            if(oeuvre.equals(o))
+            for(Oeuvre o : catalogue)
             {
-                return false;
+                if(o.getOeuvreId() == oeuvre.getOeuvreId())
+                {
+                    return false;
+                }
             }
+            return true;
         }
         return true;
     }
@@ -333,8 +331,6 @@ public class Main {
         Oeuvre oeuvre = null;
         List<Oeuvre> listeOeuvres = new ArrayList<Oeuvre>();
         
-        Gallerie gallerie;
-        
         System.out.println("------Démo de connexion ------");
         Client client = Connexion();
         
@@ -343,7 +339,7 @@ public class Main {
         List<Date> listeDates;
         Date dateDeb = null;
         Date dateFin = null;
-        while (catalogue == null || catalogue.size() == 0)
+        while (catalogue == null || catalogue.isEmpty())
         {
             System.out.println("------Saisie de date de la location ------");
             listeDates = SaisieDate();
@@ -352,7 +348,7 @@ public class Main {
 
             System.out.println("------Affichage des oeuvres disponibles ------");
             catalogue = AffichageOeuvreDispo(dateDeb, dateFin);
-            if(catalogue.size() == 0)
+            if(catalogue.isEmpty())
             {
                 System.out.println("Aucune oeuvre disponible pour ces dates");
             }
@@ -360,9 +356,9 @@ public class Main {
         
         System.out.println("------Ajout d'une oeuvre à la gallerie ------");
         oeuvre = SaisieOeuvre(catalogue);
-        if(ComparerOeuvreCatlogue(oeuvre, catalogue))
+        if(ComparerOeuvreListeOeuvres(oeuvre, listeOeuvres))
         {
-            catalogue.add(oeuvre);
+            listeOeuvres.add(oeuvre);
             System.out.println("Oeuvre ajoutée");
         }
         else
@@ -375,9 +371,9 @@ public class Main {
         catalogue = RechercheOeuvreParNom(dateDeb, dateFin);
         System.out.println("------Ajout d'une oeuvre à la gallerie ------");
         oeuvre = SaisieOeuvre(catalogue);
-        if(ComparerOeuvreCatlogue(oeuvre, catalogue))
+        if(ComparerOeuvreListeOeuvres(oeuvre, listeOeuvres))
         {
-            catalogue.add(oeuvre);
+            listeOeuvres.add(oeuvre);
             System.out.println("Oeuvre ajoutée");
         }
         else
@@ -389,9 +385,9 @@ public class Main {
         catalogue = RechercheOeuvreParArtistePrix(dateDeb, dateFin);
         System.out.println("------Ajout d'une oeuvre à la gallerie ------");
         oeuvre = SaisieOeuvre(catalogue);
-        if(ComparerOeuvreCatlogue(oeuvre, catalogue))
+        if(ComparerOeuvreListeOeuvres(oeuvre, listeOeuvres))
         {
-            catalogue.add(oeuvre);
+            listeOeuvres.add(oeuvre);
             System.out.println("Oeuvre ajoutée");
         }
         else
@@ -400,7 +396,7 @@ public class Main {
         }
         
         System.out.println("------Validation de la gallerie ------");
-        ValiderGallerie(catalogue, client);
+        ValiderGallerie(listeOeuvres, client, dateDeb, dateFin);
         
         //System.out.println("------Test Recherche par Nom de l'oeuvre ------");
         //TestRechercheParNom();
