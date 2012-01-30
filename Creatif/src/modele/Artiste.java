@@ -27,10 +27,23 @@ public class Artiste implements Serializable{
     @GeneratedValue(strategy = GenerationType.AUTO)
     protected int idArtiste;
 
+    public int getIdArtiste() {
+        return idArtiste;
+    }
+
+    public List<Oeuvre> getListeOeuvres() {
+        return listeOeuvres;
+    }
+
+    public String getBiographie() {
+        return biographie;
+    }
+
     public String getNomArtiste() {
         return nomArtiste;
     }
-
+    
+    protected String prenomArtiste;
     protected String nomArtiste;
 
     @OneToMany(mappedBy = "artiste")
@@ -41,9 +54,14 @@ public class Artiste implements Serializable{
     public Artiste() {
     }
 
-    public Artiste(String nomArtiste, String biographie) {
+    public Artiste(String prenomArtiste, String nomArtiste, String biographie) {
+        this.prenomArtiste = prenomArtiste;
         this.nomArtiste = nomArtiste;
         this.biographie = biographie;
+    }
+
+    public String getPrenomArtiste() {
+        return prenomArtiste;
     }
 
     public void ajouterOeuvre(Oeuvre oeuvre)

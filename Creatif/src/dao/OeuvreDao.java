@@ -54,17 +54,18 @@ public class OeuvreDao {
         String dateRequest = "(e1.oeuvreId NOT IN (Select e2.oeuvreId from Gallerie g1, IN (g1.listeOeuvres) e2) "
                     + "OR e1.oeuvreId IN (select e3.oeuvreId from Oeuvre e3 , "
                     + "IN (e3.listeGalleries) g2 where g2.dateDebut > :dateFin OR g2.dateFin < :dateDeb))";
+        String order = "order by e1.titre";
 
         switch (comparaison)
         {
             case SUP:
-              query  = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 WHERE (e1.prix > :prix)" + " AND " + dateRequest);
+              query  = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 WHERE (e1.prix > :prix)" + " AND " + dateRequest + order);
               break;
             case INF:
-              query = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 WHERE e1.prix < :prix" + " AND " + dateRequest);
+              query = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 WHERE e1.prix < :prix" + " AND " + dateRequest + order);
               break;
             case EGAL:
-                query = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 WHERE e1.prix = :prix" + " AND " + dateRequest);
+                query = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 WHERE e1.prix = :prix" + " AND " + dateRequest + order);
               break;
         }
               query.setParameter("prix", prix);
@@ -103,20 +104,21 @@ public class OeuvreDao {
         String dateRequest = "(e1.oeuvreId NOT IN (Select e2.oeuvreId from Gallerie g1, IN (g1.listeOeuvres) e2) "
             + "OR e1.oeuvreId IN (select e3.oeuvreId from Oeuvre e3 , "
             + "IN (e3.listeGalleries) g2 where g2.dateDebut > :dateFin OR g2.dateFin < :dateDeb))";
+        String order = "order by e1.titre";
 
         switch (comparaison)
         {
             case SUP:
               query  = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 "
-                      + "WHERE (e1.prix > :prix AND e1.artiste.nomArtiste = :artiste)" + " AND " + dateRequest);
+                      + "WHERE (e1.prix > :prix AND e1.artiste.nomArtiste = :artiste)" + " AND " + dateRequest + order);
               break;
             case INF:
               query = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 "
-                      + "WHERE (e1.prix < :prix AND e1.artiste.nomArtiste = :artiste)" + " AND " + dateRequest);
+                      + "WHERE (e1.prix < :prix AND e1.artiste.nomArtiste = :artiste)" + " AND " + dateRequest + order);
               break;
             case EGAL:
                 query = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 "
-                        + "WHERE (e1.prix = :prix AND e1.artiste.nomArtiste = :artiste)" + " AND " + dateRequest);
+                        + "WHERE (e1.prix = :prix AND e1.artiste.nomArtiste = :artiste)" + " AND " + dateRequest + order);
               break;
         }
               query.setParameter("prix", prix);
@@ -129,10 +131,11 @@ public class OeuvreDao {
     
     public List<Oeuvre> findNomOeuvreAndByDate( String nomOeuvre, Date dateDeb,Date dateFin)
     {
+        String order = "order by e1.titre";
         Query query = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 "
                 + "WHERE (UPPER(e1.titre) LIKE :nomOeuvre) AND (e1.oeuvreId NOT IN (Select e2.oeuvreId from Gallerie g1, IN (g1.listeOeuvres) e2) "
                     + "OR e1.oeuvreId IN (select e3.oeuvreId from Oeuvre e3 , "
-                    + "IN (e3.listeGalleries) g2 where g2.dateDebut > :dateFin OR g2.dateFin < :dateDeb))");
+                    + "IN (e3.listeGalleries) g2 where g2.dateDebut > :dateFin OR g2.dateFin < :dateDeb))" + order);
         query.setParameter("nomOeuvre", '%'+ nomOeuvre.toUpperCase()+'%');
         query.setParameter("dateDeb", dateDeb, TemporalType.DATE);
         query.setParameter("dateFin", dateFin, TemporalType.DATE);
@@ -143,6 +146,21 @@ public class OeuvreDao {
     {
         Query query = JpaUtil.getEntityManager().createQuery("select e from Oeuvre e WHERE UPPER(e.titre) LIKE :nomOeuvre");
         query.setParameter("nomOeuvre", '%'+ nomOeuvre.toUpperCase()+'%');
+        return query.getResultList();
+    }
+        
+        public List<Oeuvre> findOeuvreByDate(Date dateDeb,Date dateFin)
+    {
+        String order = "order by e1.titre";
+        //recherche des oeuvres dont les galleries associées ne correspondent
+        //pas à cette fourchette de date et recherche des oeuvres qui ne sont associées à aucune gallerie
+        Query query = JpaUtil.getEntityManager().createQuery
+                ("select e1 from Oeuvre e1 WHERE e1.oeuvreId "
+                + "NOT IN (Select e2.oeuvreId from Gallerie g1, IN (g1.listeOeuvres) e2) "
+                + "OR e1.oeuvreId IN (select e3.oeuvreId from Oeuvre e3 , "
+                + "IN (e3.listeGalleries) g2 where g2.dateDebut > :dateFin OR g2.dateFin < :dateDeb)" + order);
+        query.setParameter("dateDeb", dateDeb, TemporalType.DATE);
+        query.setParameter("dateFin", dateFin, TemporalType.DATE);
         return query.getResultList();
     }
 

@@ -44,6 +44,22 @@ public class Gallerie implements Serializable {
     protected Date dateFin;
     protected int prixTotal;
 
+    public Client getClient() {
+        return client;
+    }
+
+    public Date getDateDebut() {
+        return dateDebut;
+    }
+
+    public Date getDateFin() {
+        return dateFin;
+    }
+
+    public int getPrixTotal() {
+        return prixTotal;
+    }
+
     public Gallerie() {
     }
 

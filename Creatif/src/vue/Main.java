@@ -36,7 +36,7 @@ public class Main {
 //        listeGalleriesRef = new ArrayList<Gallerie>();
 //        listeArtistesRef = new ArrayList<Artiste>();
         
-        Client client = new Client("20 avenue albert einstein", "69100", "Villeurbanne", 0612121212);
+        Client client = new Client("20 avenue albert einstein", "69100", "Villeurbanne", 0612121212, "Jean", "Dupont");
 //        listeClientsRef.add(client);
         service.creerClient(client);
 
@@ -46,7 +46,7 @@ public class Main {
         Gallerie gallerie = new Gallerie(dateDeb,dateFin,prixTotal);
 //       listeGalleriesRef.add(gallerie);
 
-        Artiste artiste = new Artiste("test ","C'est");
+        Artiste artiste = new Artiste("heu", "test ","C'est");
 //        listeArtistesRef.add(artiste);
         service.creerArtiste(artiste);
 
@@ -74,8 +74,8 @@ public class Main {
         int i = 0;
         for(Oeuvre o : catalogue)
         {
-            System.out.println(o.getArtiste().getNomArtiste() +'\t' + o.getTitre() 
-                    + '\t' + Float.toString(o.getPrix()) + " €" + " (" + i + ")");
+            System.out.println(o.getTitre() 
+                    + '\t' + o.getArtiste().getNomArtiste() +'\t' + Float.toString(o.getPrix()) + " €" + " (" + i + ")");
             i++;
         }
     }
@@ -167,7 +167,7 @@ public class Main {
         while(catalogue == null || catalogue.size() == 0)
         {
             String nom = Saisie.lireChaine("Indiquer le nom de l'oeuvre : ");
-            catalogue = service.rechercherOeuvreParNomEtDate(nom, dateDeb, dateFin);
+            catalogue = service.rechercherOeuvreParArtisteEtDate(nom, dateDeb, dateFin);
             AfficherCatalogue(catalogue);
             if(catalogue.size() == 0)
             {

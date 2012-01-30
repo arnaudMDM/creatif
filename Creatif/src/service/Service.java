@@ -148,7 +148,7 @@ public class Service {
      {
          List<Oeuvre> listeOeuvres;
                   JpaUtil.openEntityManager();
-                  listeOeuvres = gallerieDao.findOeuvreByDate(dateDeb,dateFin);
+                  listeOeuvres = oeuvreDao.findOeuvreByDate(dateDeb,dateFin);
                   JpaUtil.closeEntityManager();
                   return listeOeuvres;
      }
@@ -162,7 +162,7 @@ public class Service {
                   return listeOeuvres;
      }
      
-     public List<Oeuvre> rechercherOeuvreParNomEtDate(String nomOeuvre,Date dateDeb, Date dateFin)
+     public List<Oeuvre> rechercherOeuvreParArtisteEtDate(String nomOeuvre,Date dateDeb, Date dateFin)
      {
          List<Oeuvre> listeOeuvres;
                   JpaUtil.openEntityManager();
@@ -171,7 +171,7 @@ public class Service {
                   return listeOeuvres;
      }
 
-     public List<Oeuvre> rechercherOeuvreParPrixEtNom(String artiste, float prix, Comparaison comparaison)
+     public List<Oeuvre> rechercherOeuvreParPrixEtArtiste(String artiste, float prix, Comparaison comparaison)
      {
          List<Oeuvre> listeOeuvres;
                   JpaUtil.openEntityManager();
