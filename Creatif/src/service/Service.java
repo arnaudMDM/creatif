@@ -103,7 +103,7 @@ public class Service {
          JpaUtil.openEntityManager();
          EntityTransaction tx = null;
          oeuvre.setArtiste(artiste);
-         artiste.ajouterOeuvre(oeuvre);
+//         artiste.ajouterOeuvre(oeuvre);
          try{
              tx = JpaUtil.getEntityManagerTransaction();
 
@@ -162,7 +162,7 @@ public class Service {
                   return listeOeuvres;
      }
      
-     public List<Oeuvre> rechercherOeuvreParArtisteEtDate(String nomOeuvre,Date dateDeb, Date dateFin)
+     public List<Oeuvre> rechercherOeuvreParOeuvreEtDate(String nomOeuvre,Date dateDeb, Date dateFin)
      {
          List<Oeuvre> listeOeuvres;
                   JpaUtil.openEntityManager();
@@ -187,19 +187,19 @@ public class Service {
                   return listeOeuvres;
      }
      
-          public List<Oeuvre> rechercherOeuvreParPrixEtNomEtDate(String artiste, 
+          public List<Oeuvre> rechercherOeuvreParPrixEtArtisteEtDate(int idArtiste, 
                   float prix, Comparaison comparaison, Date dateDeb, Date dateFin)
      {
          List<Oeuvre> listeOeuvres;
                   JpaUtil.openEntityManager();
                   //si artiste vaut "*", cela signifie que l'on ne veut pas faire de requete au niveau de l'artiste
-                  if (artiste.equals("*"))
+                  if (idArtiste == -1)
                   {
                         listeOeuvres = oeuvreDao.findOeuvreByPrixAndByDate(prix, comparaison, dateDeb, dateFin);
                   }
                   else
                   {
-                        listeOeuvres = oeuvreDao.findOeuvreByPrixAndArtisteAndByDate(artiste, prix, comparaison, dateDeb,dateFin);
+                        listeOeuvres = oeuvreDao.findOeuvreByPrixAndArtisteAndByDate(idArtiste, prix, comparaison, dateDeb,dateFin);
                   }
                   JpaUtil.closeEntityManager();
                   return listeOeuvres;

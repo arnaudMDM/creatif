@@ -31,9 +31,9 @@ public class Artiste implements Serializable{
         return idArtiste;
     }
 
-    public List<Oeuvre> getListeOeuvres() {
-        return listeOeuvres;
-    }
+//    public List<Oeuvre> getListeOeuvres() {
+//        return listeOeuvres;
+//    }
 
     public String getBiographie() {
         return biographie;
@@ -46,8 +46,8 @@ public class Artiste implements Serializable{
     protected String prenomArtiste;
     protected String nomArtiste;
 
-    @OneToMany(mappedBy = "artiste")
-    protected List<Oeuvre> listeOeuvres = new ArrayList<Oeuvre>();
+//    @OneToMany(mappedBy = "artiste")
+//    protected List<Oeuvre> listeOeuvres = new ArrayList<Oeuvre>();
 
     protected String biographie;
 
@@ -64,10 +64,10 @@ public class Artiste implements Serializable{
         return prenomArtiste;
     }
 
-    public void ajouterOeuvre(Oeuvre oeuvre)
-    {
-        listeOeuvres.add(oeuvre);
-    }
+//    public void ajouterOeuvre(Oeuvre oeuvre)
+//    {
+//        listeOeuvres.add(oeuvre);
+//    }
 
 
 

@@ -167,7 +167,7 @@ public class Main {
         while(catalogue == null || catalogue.size() == 0)
         {
             String nom = Saisie.lireChaine("Indiquer le nom de l'oeuvre : ");
-            catalogue = service.rechercherOeuvreParArtisteEtDate(nom, dateDeb, dateFin);
+            catalogue = service.rechercherOeuvreParOeuvreEtDate(nom, dateDeb, dateFin);
             AfficherCatalogue(catalogue);
             if(catalogue.size() == 0)
             {
@@ -210,11 +210,12 @@ public class Main {
                 prix = Float.parseFloat(Saisie.lireChaine("Veuillez saisir le prix :"));
             }
 
-
-            String artiste = Saisie.lireChaine("Veuillez saisir le nom de l'Artiste ('*' pour tous les artistes) :");
+            List<Artiste> listeArtistes = AfficherTousArtistes();
+            
+            int idArtiste = SaisieArtiste(listeArtistes);
 
             Comparaison comp = Comparaison.valueOf(comparateur);
-            catalogue = service.rechercherOeuvreParPrixEtNomEtDate(artiste, prix, comp, dateDeb, dateFin);
+            catalogue = service.rechercherOeuvreParPrixEtArtisteEtDate(idArtiste, prix, comp, dateDeb, dateFin);
 
             AfficherCatalogue(catalogue);
             if(catalogue.size() == 0)
@@ -227,6 +228,45 @@ public class Main {
         return catalogue;
     }
     
+    public static List<Artiste> AfficherTousArtistes()
+    {
+        List<Artiste> listeArtistes;
+        listeArtistes = service.RechercherTousLesArtistes();
+        System.out.println("\n------Liste d'Artistes ------");
+        System.out.println("Tous (0)");
+        int i = 1;
+        for (Artiste a : listeArtistes)
+        {
+            System.out.println(a.getPrenomArtiste() + " " + a.getNomArtiste() + " (" + i + ")");
+            i++;
+        }
+        return listeArtistes;
+    }
+    
+    public static int SaisieArtiste(List<Artiste> listeArtistes)
+    {
+        boolean valide = false;
+        int idArtiste = -1;
+        while(!valide)
+        {
+            String choix = Saisie.lireChaine("\nVeuillez choisir un numéro : ");
+            int index = Integer.parseInt(choix);
+            if( index >= 0 && index < listeArtistes.size() + 1)
+            {
+                valide = true;
+                if(index != 0)
+                {
+                    idArtiste = listeArtistes.get(index - 1).getIdArtiste();                
+                }
+            }
+            else
+            {
+            System.out.println("Numéro incorrect");
+            }
+        }
+        return idArtiste;
+    }
+    
     public static void ValiderGallerie (List<Oeuvre> catalogue, Client unClient, Date dateDeb, Date dateFin) {
         int prixTotal = 2000;
         Gallerie uneGallerie = new Gallerie(dateDeb,dateFin,prixTotal);
@@ -234,8 +274,8 @@ public class Main {
         System.out.println("Gallerie personnelle");
         for(Oeuvre o : catalogue)
         {
-            System.out.println(o.getArtiste().getNomArtiste() +'\t' + o.getTitre() 
-                    + '\t' + Float.toString(o.getPrix()) + " €");
+            System.out.println(o.getTitre() 
+                    + '\t' + o.getArtiste().getNomArtiste() +'\t' + Float.toString(o.getPrix()) + " €");
         }
     }
     

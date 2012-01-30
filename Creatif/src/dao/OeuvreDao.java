@@ -98,7 +98,7 @@ public class OeuvreDao {
         return query.getResultList();
     }
     
-        public List<Oeuvre> findOeuvreByPrixAndArtisteAndByDate( String unArtiste, float prix, Comparaison comparaison, Date dateDeb,Date dateFin)
+        public List<Oeuvre> findOeuvreByPrixAndArtisteAndByDate( int unIdArtiste, float prix, Comparaison comparaison, Date dateDeb,Date dateFin)
     {
         Query query = null;
         String dateRequest = "(e1.oeuvreId NOT IN (Select e2.oeuvreId from Gallerie g1, IN (g1.listeOeuvres) e2) "
@@ -110,19 +110,19 @@ public class OeuvreDao {
         {
             case SUP:
               query  = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 "
-                      + "WHERE (e1.prix > :prix AND e1.artiste.nomArtiste = :artiste)" + " AND " + dateRequest + order);
+                      + "WHERE (e1.prix > :prix AND e1.artiste.idArtiste = :unIdArtiste)" + " AND " + dateRequest + order);
               break;
             case INF:
               query = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 "
-                      + "WHERE (e1.prix < :prix AND e1.artiste.nomArtiste = :artiste)" + " AND " + dateRequest + order);
+                      + "WHERE (e1.prix < :prix AND e1.artiste.idArtiste = :unIdArtiste)" + " AND " + dateRequest + order);
               break;
             case EGAL:
                 query = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 "
-                        + "WHERE (e1.prix = :prix AND e1.artiste.nomArtiste = :artiste)" + " AND " + dateRequest + order);
+                        + "WHERE (e1.prix = :prix AND e1.artiste.idArtiste = :unIdArtiste)" + " AND " + dateRequest + order);
               break;
         }
               query.setParameter("prix", prix);
-              query.setParameter("artiste", unArtiste);
+              query.setParameter("unIdArtiste", unIdArtiste);
               query.setParameter("dateDeb", dateDeb, TemporalType.DATE);
               query.setParameter("dateFin", dateFin, TemporalType.DATE);
         return query.getResultList();
