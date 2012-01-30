@@ -63,10 +63,10 @@ public class Gallerie implements Serializable {
     public Gallerie() {
     }
 
-    public Gallerie( Date dateDebut, Date dateFin, int prixTotal) {
+    public Gallerie( Date dateDebut, Date dateFin) {
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
-        this.prixTotal = prixTotal;
+        prixTotal = 0;
     }
 
     public int getGallerieId() {
@@ -87,5 +87,12 @@ public class Gallerie implements Serializable {
     {
         this.client = client;
     }
-
+    
+    public void CalculerPrixTotal()
+    {
+        for(Oeuvre o : listeOeuvres)
+        {
+            prixTotal += o.getPrix();
+        }
+    }
 }

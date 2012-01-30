@@ -21,6 +21,4 @@ public class GallerieDao {
         public void create(Gallerie gallerie){
                 JpaUtil.getEntityManager().persist(gallerie);
             }
-
-
     }

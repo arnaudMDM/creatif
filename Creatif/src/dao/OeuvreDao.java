@@ -149,6 +149,13 @@ public class OeuvreDao {
         return query.getResultList();
     }
         
+        public List<Oeuvre> findIdOeuvre( int unIdOeuvre)
+    {
+        Query query = JpaUtil.getEntityManager().createQuery("select e from Oeuvre e WHERE e.idoeuvre = :unIdOeuvre");
+        query.setParameter("unIdOeuvre", unIdOeuvre);
+        return query.getResultList();
+    }
+        
         public List<Oeuvre> findOeuvreByDate(Date dateDeb,Date dateFin)
     {
         String order = "order by e1.titre";

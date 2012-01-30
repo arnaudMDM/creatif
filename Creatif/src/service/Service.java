@@ -23,6 +23,8 @@ public class Service {
     protected GallerieDao gallerieDao;
     protected OeuvreDao oeuvreDao;
     protected ArtisteDao artisteDao;
+    protected PeintureDao peintureDao;
+    protected SculptureDao sculptureDao;
     protected int validite;
 
     public Service()
@@ -31,6 +33,8 @@ public class Service {
          gallerieDao = new GallerieDao();
          oeuvreDao = new OeuvreDao();
          artisteDao = new ArtisteDao();
+         peintureDao = new PeintureDao();
+         sculptureDao = new SculptureDao();
 
     }
      public int creerClient(Client client){
@@ -162,6 +166,15 @@ public class Service {
                   return listeOeuvres;
      }
      
+     public List<Oeuvre> rechercherOeuvreParId(int idOeuvre)
+     {
+                  List<Oeuvre> listeOeuvres;
+                  JpaUtil.openEntityManager();
+                  listeOeuvres = oeuvreDao.findIdOeuvre(idOeuvre);
+                  JpaUtil.closeEntityManager();
+                  return listeOeuvres;
+     }
+     
      public List<Oeuvre> rechercherOeuvreParOeuvreEtDate(String nomOeuvre,Date dateDeb, Date dateFin)
      {
          List<Oeuvre> listeOeuvres;
@@ -225,5 +238,21 @@ public class Service {
          return listeArtistes;
      }
 
-
+     public List<Peinture> RechercherToutesLesPeintures()
+     {
+         List<Peinture> listePeintures;
+         JpaUtil.openEntityManager();
+         listePeintures = peintureDao.findAllPeinture();
+         JpaUtil.closeEntityManager();
+         return listePeintures;
+     }
+     
+          public List<Sculpture> RechercherToutesLesSculptures()
+     {
+         List<Sculpture> listeSculpture;
+         JpaUtil.openEntityManager();
+         listeSculpture = sculptureDao.findAllSculpture();
+         JpaUtil.closeEntityManager();
+         return listeSculpture;
+     }
 }

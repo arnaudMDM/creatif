@@ -42,8 +42,7 @@ public class Main {
 
         Date dateDeb = new Date(112,5,12);
         Date dateFin = new Date(112,5,28);
-        int prixTotal = 2000;
-        Gallerie gallerie = new Gallerie(dateDeb,dateFin,prixTotal);
+        Gallerie gallerie = new Gallerie(dateDeb,dateFin);
 //       listeGalleriesRef.add(gallerie);
 
         Artiste artiste = new Artiste("heu", "test ","C'est");
@@ -268,8 +267,7 @@ public class Main {
     }
     
     public static void ValiderGallerie (List<Oeuvre> catalogue, Client unClient, Date dateDeb, Date dateFin) {
-        int prixTotal = 2000;
-        Gallerie uneGallerie = new Gallerie(dateDeb,dateFin,prixTotal);
+        Gallerie uneGallerie = new Gallerie(dateDeb,dateFin);
         service.creerGallerie(uneGallerie, unClient, catalogue);
         System.out.println("Gallerie personnelle");
         for(Oeuvre o : catalogue)
