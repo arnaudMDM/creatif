@@ -37,15 +37,15 @@ public class Oeuvre implements Serializable {
         @ManyToOne
         private Artiste artiste;
 
-        protected String titre;
+        protected String nom;
         protected String carac;
         protected float prix;
 
     public Oeuvre() {
     }
 
-    public Oeuvre( String titre, String carac, float prix) {
-        this.titre = titre;
+    public Oeuvre( String nom, String carac, float prix) {
+        this.nom = nom;
         this.carac = carac;
         this.prix = prix;
     }
@@ -82,8 +82,8 @@ public class Oeuvre implements Serializable {
         return prix;
     }
 
-    public String getTitre() {
-        return titre;
+    public String getNom() {
+        return nom;
     }
 
 }

@@ -16,7 +16,7 @@ import util.JpaUtil;
 public class PeintureDao {
     public List<Peinture> findAllPeinture()
     {    
-        Query query = JpaUtil.getEntityManager().createQuery("select p from Peinture p order by p.nomOeuvre");
+        Query query = JpaUtil.getEntityManager().createQuery("select p from Peinture p order by p.nom");
         return query.getResultList();
     }
 }

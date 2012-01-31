@@ -68,6 +68,7 @@ public class Service {
             client.ajouterGallerie(gallerie);
             gallerie.setClient(client);
             gallerie.ajouterOeuvre(lOeuvre);
+            gallerie.CalculerPrixTotal();
             for (Oeuvre oeuvre : lOeuvre)
             {
                 oeuvre.ajouterGallerie(gallerie);
@@ -148,7 +149,7 @@ public class Service {
          return validite;
      }
 
-     public List<Oeuvre> rechercherOeuvrePardate(Date dateDeb, Date dateFin)
+     public List<Oeuvre> rechercherOeuvreParDate(Date dateDeb, Date dateFin)
      {
          List<Oeuvre> listeOeuvres;
                   JpaUtil.openEntityManager();
@@ -161,46 +162,46 @@ public class Service {
      {
          List<Oeuvre> listeOeuvres;
                   JpaUtil.openEntityManager();
-                  listeOeuvres = oeuvreDao.findNomOeuvre(nomOeuvre);
+                  listeOeuvres = oeuvreDao.findOeuvreByNom(nomOeuvre);
                   JpaUtil.closeEntityManager();
                   return listeOeuvres;
      }
      
-     public List<Oeuvre> rechercherOeuvreParId(int idOeuvre)
+     public Oeuvre rechercherOeuvreParId(int idOeuvre)
      {
-                  List<Oeuvre> listeOeuvres;
+                  Oeuvre oeuvre;
                   JpaUtil.openEntityManager();
-                  listeOeuvres = oeuvreDao.findIdOeuvre(idOeuvre);
+                  oeuvre = oeuvreDao.findOeuvreById(idOeuvre);
                   JpaUtil.closeEntityManager();
-                  return listeOeuvres;
+                  return oeuvre;
      }
      
-     public List<Oeuvre> rechercherOeuvreParOeuvreEtDate(String nomOeuvre,Date dateDeb, Date dateFin)
+     public List<Oeuvre> rechercherOeuvreParNomDate(String nomOeuvre,Date dateDeb, Date dateFin)
      {
          List<Oeuvre> listeOeuvres;
                   JpaUtil.openEntityManager();
-                  listeOeuvres = oeuvreDao.findNomOeuvreAndByDate(nomOeuvre, dateDeb, dateFin);
+                  listeOeuvres = oeuvreDao.findOeuvreByNomDate(nomOeuvre, dateDeb, dateFin);
                   JpaUtil.closeEntityManager();
                   return listeOeuvres;
      }
 
-     public List<Oeuvre> rechercherOeuvreParPrixEtArtiste(String artiste, float prix, Comparaison comparaison)
-     {
-         List<Oeuvre> listeOeuvres;
-                  JpaUtil.openEntityManager();
-                  if (artiste.equals("*"))
-                  {
-                        listeOeuvres = oeuvreDao.findOeuvreByPrix(prix, comparaison);
-                  }
-                  else
-                  {
-                        listeOeuvres = oeuvreDao.findOeuvreByPrixAndArtiste(artiste, prix, comparaison);
-                  }
-                  JpaUtil.closeEntityManager();
-                  return listeOeuvres;
-     }
+//     public List<Oeuvre> rechercherOeuvreParPrixArtiste(String artiste, float prix, Comparaison comparaison)
+//     {
+//         List<Oeuvre> listeOeuvres;
+//                  JpaUtil.openEntityManager();
+//                  if (artiste.equals("*"))
+//                  {
+//                        listeOeuvres = oeuvreDao.findOeuvreByPrix(prix, comparaison);
+//                  }
+//                  else
+//                  {
+//                        listeOeuvres = oeuvreDao.findOeuvreByPrixArtiste(artiste, prix, comparaison);
+//                  }
+//                  JpaUtil.closeEntityManager();
+//                  return listeOeuvres;
+//     }
      
-          public List<Oeuvre> rechercherOeuvreParPrixEtArtisteEtDate(int idArtiste, 
+          public List<Oeuvre> rechercherOeuvreParPrixArtisteDate(int idArtiste, 
                   float prix, Comparaison comparaison, Date dateDeb, Date dateFin)
      {
          List<Oeuvre> listeOeuvres;
@@ -208,11 +209,11 @@ public class Service {
                   //si artiste vaut "*", cela signifie que l'on ne veut pas faire de requete au niveau de l'artiste
                   if (idArtiste == -1)
                   {
-                        listeOeuvres = oeuvreDao.findOeuvreByPrixAndByDate(prix, comparaison, dateDeb, dateFin);
+                        listeOeuvres = oeuvreDao.findOeuvreByPrixDate(prix, comparaison, dateDeb, dateFin);
                   }
                   else
                   {
-                        listeOeuvres = oeuvreDao.findOeuvreByPrixAndArtisteAndByDate(idArtiste, prix, comparaison, dateDeb,dateFin);
+                        listeOeuvres = oeuvreDao.findOeuvreByPrixArtisteDate(idArtiste, prix, comparaison, dateDeb,dateFin);
                   }
                   JpaUtil.closeEntityManager();
                   return listeOeuvres;
@@ -229,7 +230,7 @@ public class Service {
          return client;
      }
      
-     public List<Artiste> RechercherTousLesArtistes()
+     public List<Artiste> rechercherTousArtistes()
      {
          List<Artiste> listeArtistes;
          JpaUtil.openEntityManager();
@@ -237,8 +238,17 @@ public class Service {
          JpaUtil.closeEntityManager();
          return listeArtistes;
      }
+     
+     public List<Oeuvre> rechercherToutesOeuvres()
+     {
+         List<Oeuvre> listeOeuvres;
+         JpaUtil.openEntityManager();
+         listeOeuvres = oeuvreDao.findAllOeuvre();
+         JpaUtil.closeEntityManager();
+         return listeOeuvres;
+     }
 
-     public List<Peinture> RechercherToutesLesPeintures()
+     public List<Peinture> rechercherToutesPeintures()
      {
          List<Peinture> listePeintures;
          JpaUtil.openEntityManager();
@@ -247,7 +257,7 @@ public class Service {
          return listePeintures;
      }
      
-          public List<Sculpture> RechercherToutesLesSculptures()
+     public List<Sculpture> rechercherToutesSculptures()
      {
          List<Sculpture> listeSculpture;
          JpaUtil.openEntityManager();

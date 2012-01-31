@@ -16,7 +16,7 @@ import util.JpaUtil;
 public class SculptureDao {
         public List<Sculpture> findAllSculpture()
     {    
-        Query query = JpaUtil.getEntityManager().createQuery("select s from Sculpture s order by s.nomOeuvre");
+        Query query = JpaUtil.getEntityManager().createQuery("select s from Sculpture s order by s.nom");
         return query.getResultList();
     }
 }

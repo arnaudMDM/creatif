@@ -28,7 +28,7 @@ public class ArtisteDao {
     
     public List<Artiste> findAllArtiste()
     {
-        Query query = JpaUtil.getEntityManager().createQuery("select a from Artiste a order by a.nomArtiste");
+        Query query = JpaUtil.getEntityManager().createQuery("select a from Artiste a order by a.nom");
         return query.getResultList();
     }
 

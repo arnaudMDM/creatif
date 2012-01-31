@@ -21,6 +21,10 @@ public class Peinture extends Oeuvre {
     public Peinture() {
     }
 
+    public String getDimension() {
+        return dimension;
+    }
+
     public Peinture( String titre, String carac, float prix, String dimension) {
         super( titre, carac, prix);
         this.dimension = dimension;

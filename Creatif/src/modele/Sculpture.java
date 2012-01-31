@@ -15,6 +15,10 @@ import javax.persistence.Entity;
 @Entity
 public class Sculpture extends Oeuvre{
 
+    public String getDimension() {
+        return dimension;
+    }
+
     protected String dimension;
 
     public Sculpture() {

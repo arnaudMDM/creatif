@@ -68,14 +68,35 @@ public class Main {
         
     }
     
-    public static void AfficherCatalogue(List<Oeuvre> catalogue)
+    public static void AfficherListeOeuvres(List<Oeuvre> listeOeuvres)
     {
         int i = 0;
-        for(Oeuvre o : catalogue)
+        System.out.println("\nListe d'Oeuvres");
+        for(Oeuvre o : listeOeuvres)
         {
-            System.out.println(o.getTitre() 
-                    + '\t' + o.getArtiste().getNomArtiste() +'\t' + Float.toString(o.getPrix()) + " €" + " (" + i + ")");
+            System.out.println(o.getNom() 
+                    + '\t' + o.getArtiste().getNom() +'\t' + Float.toString(o.getPrix()) + " €" + " (" + i + ")");
             i++;
+        }
+    }
+    
+    public static void AfficherCatalogue()
+    {
+        List<Peinture> listePeintures;
+        listePeintures = service.rechercherToutesPeintures();
+        System.out.println("------Peinture------");
+        for (Peinture p : listePeintures)
+        {
+            System.out.println(p.getNom() + "\t" + p.getArtiste().getNom() 
+                    + "\t" + p.getCarac() + "\t" + p.getDimension() + "\t" + p.getPrix() + " €");
+        }
+        List<Sculpture> listeSculptures;
+        listeSculptures = service.rechercherToutesSculptures();
+        System.out.println("------Sculpture------");
+        for (Sculpture s : listeSculptures)
+        {
+            System.out.println(s.getNom() + "\t" + s.getArtiste().getNom() 
+            + "\t" + s.getCarac() + "\t" + s.getDimension() + "\t" + s.getPrix() + " €");
         }
     }
 
@@ -86,7 +107,6 @@ public class Main {
         boolean dateCorrect = false;
         while(!dateCorrect)
         {           
-            List<Oeuvre> catalogue;
             Date dateDebut = null;
             Date dateFin = null;
             String reponse;
@@ -162,26 +182,26 @@ public class Main {
     
     public static List<Oeuvre> RechercheOeuvreParNom(Date dateDeb, Date dateFin)
     {
-        List<Oeuvre> catalogue = null;
-        while(catalogue == null || catalogue.size() == 0)
+        List<Oeuvre> listeOeuvres = null;
+        while(listeOeuvres == null || listeOeuvres.size() == 0)
         {
             String nom = Saisie.lireChaine("Indiquer le nom de l'oeuvre : ");
-            catalogue = service.rechercherOeuvreParOeuvreEtDate(nom, dateDeb, dateFin);
-            AfficherCatalogue(catalogue);
-            if(catalogue.size() == 0)
+            listeOeuvres = service.rechercherOeuvreParNomDate(nom, dateDeb, dateFin);
+            AfficherListeOeuvres(listeOeuvres);
+            if(listeOeuvres.size() == 0)
             {
                 System.out.println("Aucune oeuvre trouvée");
             }
         }
-        return catalogue;
+        return listeOeuvres;
     }
             
     public static List<Oeuvre> RechercheOeuvreParArtistePrix(Date dateDeb, Date dateFin)
     {
-        List<Oeuvre> catalogue = null;
+        List<Oeuvre> listeOeuvres = null;
         boolean valide = false;
         String reponse = null;
-        while(catalogue == null || catalogue.size() == 0)
+        while(listeOeuvres == null || listeOeuvres.size() == 0)
         {
             while (!valide) 
             {
@@ -210,33 +230,32 @@ public class Main {
             }
 
             List<Artiste> listeArtistes = AfficherTousArtistes();
-            
             int idArtiste = SaisieArtiste(listeArtistes);
 
             Comparaison comp = Comparaison.valueOf(comparateur);
-            catalogue = service.rechercherOeuvreParPrixEtArtisteEtDate(idArtiste, prix, comp, dateDeb, dateFin);
+            listeOeuvres = service.rechercherOeuvreParPrixArtisteDate(idArtiste, prix, comp, dateDeb, dateFin);
 
-            AfficherCatalogue(catalogue);
-            if(catalogue.size() == 0)
+            AfficherListeOeuvres(listeOeuvres);
+            if(listeOeuvres.size() == 0)
             {
                 System.out.println("Aucune oeuvre trouvée");
                 valide = false;
 
             }
         }
-        return catalogue;
+        return listeOeuvres;
     }
     
     public static List<Artiste> AfficherTousArtistes()
     {
         List<Artiste> listeArtistes;
-        listeArtistes = service.RechercherTousLesArtistes();
-        System.out.println("\n------Liste d'Artistes ------");
+        listeArtistes = service.rechercherTousArtistes();
+        System.out.println("\nListe d'Artistes");
         System.out.println("Tous (0)");
         int i = 1;
         for (Artiste a : listeArtistes)
         {
-            System.out.println(a.getPrenomArtiste() + " " + a.getNomArtiste() + " (" + i + ")");
+            System.out.println(a.getPrenom() + " " + a.getNom() + " (" + i + ")");
             i++;
         }
         return listeArtistes;
@@ -266,15 +285,17 @@ public class Main {
         return idArtiste;
     }
     
-    public static void ValiderGallerie (List<Oeuvre> catalogue, Client unClient, Date dateDeb, Date dateFin) {
+    public static void ValiderGallerie (List<Oeuvre> listeOeuvres, Client unClient, Date dateDeb, Date dateFin) {
         Gallerie uneGallerie = new Gallerie(dateDeb,dateFin);
-        service.creerGallerie(uneGallerie, unClient, catalogue);
+        service.creerGallerie(uneGallerie, unClient, listeOeuvres);
         System.out.println("Gallerie personnelle");
-        for(Oeuvre o : catalogue)
+        for(Oeuvre o : listeOeuvres)
         {
-            System.out.println(o.getTitre() 
-                    + '\t' + o.getArtiste().getNomArtiste() +'\t' + Float.toString(o.getPrix()) + " €");
+            System.out.println(o.getNom() 
+                    + '\t' + o.getArtiste().getNom() +'\t' + Float.toString(o.getPrix()) + " €");
         }
+        System.out.println("");
+        System.out.println("Prix Total : " + uneGallerie.getPrixTotal() + " €");
     }
     
     public static Client Connexion() {
@@ -306,24 +327,14 @@ public class Main {
         return c;
     }
     
-    public static void TestArtistes()
-    {
-        List<Artiste> listeArtistes;
-        listeArtistes = service.RechercherTousLesArtistes();
-        for(Artiste a : listeArtistes)
-        {
-            System.out.println(a.getNomArtiste());
-        }
-    }
-    
     public static List<Oeuvre> AffichageOeuvreDispo(Date dateDeb, Date dateFin)
     {
-        List<Oeuvre> catalogue = service.rechercherOeuvrePardate(dateDeb, dateFin);
-        AfficherCatalogue(catalogue);
-        return catalogue;
+        List<Oeuvre> listeOeuvres = service.rechercherOeuvreParDate(dateDeb, dateFin);
+        AfficherListeOeuvres(listeOeuvres);
+        return listeOeuvres;
     }
     
-    public static Oeuvre SaisieOeuvre(List<Oeuvre> catalogue)
+    public static Oeuvre SaisieOeuvre(List<Oeuvre> listeOeuvres)
     {
         boolean valide = false;
         Oeuvre oeuvre = null;
@@ -331,10 +342,10 @@ public class Main {
         {
             String choix = Saisie.lireChaine("\nVeuillez choisir un numéro : ");
             int index = Integer.parseInt(choix);
-            if( index >= 0 && index < catalogue.size())
+            if( index >= 0 && index < listeOeuvres.size())
             {
                 valide = true;
-                oeuvre = catalogue.get(index);
+                oeuvre = listeOeuvres.get(index);
             }
             else
             {
@@ -344,12 +355,12 @@ public class Main {
         return oeuvre;
     }
     
-    //renvoie vrai si oeuvre n'est pas présent dans catalogue
-    public static boolean ComparerOeuvreListeOeuvres(Oeuvre oeuvre, List<Oeuvre> catalogue)
+    //renvoie vrai si oeuvre n'est pas présent dans listeOeuvres
+    public static boolean ComparerOeuvreListeOeuvres(Oeuvre oeuvre, List<Oeuvre> listeOeuvres)
     {
-        if(catalogue.size() != 0)
+        if(listeOeuvres.size() != 0)
         {
-            for(Oeuvre o : catalogue)
+            for(Oeuvre o : listeOeuvres)
             {
                 if(o.getOeuvreId() == oeuvre.getOeuvreId())
                 {
@@ -359,6 +370,101 @@ public class Main {
             return true;
         }
         return true;
+    }
+    
+    public static void CreationOeuvre()
+    {
+       boolean valide = false;
+       Oeuvre oeuvre = null;
+       String nom = Saisie.lireChaine("indiquer le nom de l'oeuvre : "); 
+       
+       List<Artiste> listeArtistes = service.rechercherTousArtistes();
+       System.out.println("\nListe d'Artistes");
+       int i = 0;
+       for (Artiste a : listeArtistes)
+        {
+            System.out.println(a.getPrenom() + " " + a.getNom() + " (" + i + ")");
+            i++;
+        }
+       
+       Artiste artiste = null;
+        while(!valide)
+        {
+            String choix = Saisie.lireChaine("\nVeuillez choisir un artiste : ");
+            int index = Integer.parseInt(choix);
+            if( index >= 0 && index < listeArtistes.size())
+            {
+                valide = true;
+                    artiste = listeArtistes.get(index);                
+            }
+            else
+            {
+            System.out.println("Numéro incorrect");
+            }
+        }
+       valide = false; 
+       
+       
+       String carac = Saisie.lireChaine("indiquer la caractéristique de l'oeuvre : "); 
+       String dimension = Saisie.lireChaine("indiquer la dimension de l'oeuvre : "); 
+       float prix = Integer.parseInt(Saisie.lireChaine("indiquer le prix de l'oeuvre : ")); 
+       while(!valide)
+       {
+            String choix = Saisie.lireChaine("Voulez-vous créer une peinture ou sculpture(P/S) : "); 
+            if(!choix.equals("P") && !choix.equals("S"))
+            {
+                System.out.println("Choix incorrect");
+            }
+            else if(choix.equals("P"))
+            {
+                oeuvre = new Peinture(nom, carac, prix, dimension);
+                valide = true;
+            }
+            else
+            {
+                valide =true;
+                oeuvre = new Sculpture(nom, carac, prix, dimension); 
+            }
+       }
+       service.creerOeuvre(oeuvre, artiste);   
+       System.out.println("Oeuvre crée");
+    }
+    
+    public static void AffichagePlanningOeuvre(Oeuvre oeuvre)
+    {
+        int moisDeb;
+        int anneeDeb;
+        int moisFin;
+        int anneeFin;
+        String dateDeb;
+        String dateFin;
+        System.out.println("Plannig");
+        System.out.println("\n");
+        System.out.println("Oeuvre : " + oeuvre.getNom() + ", ID : " + oeuvre.getOeuvreId());
+        for(Gallerie g : oeuvre.getListeGalleries())
+        {
+            moisDeb = g.getDateDebut().getMonth()+ 1;
+            anneeDeb =g.getDateDebut().getYear() + 1900;
+            dateDeb = g.getDateDebut().getDate() + "/" + moisDeb + "/" + anneeDeb;
+            moisFin = g.getDateFin().getMonth()+ 1;
+            anneeFin =g.getDateFin().getYear() + 1900;
+            dateFin = g.getDateFin().getDate() + "/" + moisFin + "/" + anneeFin;
+            System.out.println(g.getGallerieId() + "\t" + dateDeb + "\t" 
+                    + dateFin + "\t" + g.getClient().getNom() + "\t" + g.getClient().getPrenom());
+        }
+    }
+    
+    public static void AffichagePlanning()
+    {
+        int idOeuvre = Integer.parseInt(Saisie.lireChaine("Indiquer l'ID de l'oeuvre : "));
+        Oeuvre oeuvre = service.rechercherOeuvreParId(idOeuvre);
+        AffichagePlanningOeuvre(oeuvre);
+        
+        String nom = Saisie.lireChaine("Indiquer le nom de l'oeuvre : ");
+        List<Oeuvre> listeOeuvres = service.rechercherOeuvreParNom(nom);
+        AfficherListeOeuvres(listeOeuvres);
+        oeuvre = SaisieOeuvre(listeOeuvres);
+        AffichagePlanningOeuvre(oeuvre);
     }
 
     public static void main(String[] args) {
@@ -436,6 +542,18 @@ public class Main {
         System.out.println("------Validation de la gallerie ------");
         ValiderGallerie(listeOeuvres, client, dateDeb, dateFin);
         
+        System.out.println("\n");
+        System.out.println("------Affichage du catalogue ------");
+        AfficherCatalogue();
+        
+        System.out.println("\n");
+        System.out.println("------Création d'une oeuvre ------");
+        CreationOeuvre();
+        
+        System.out.println("\n");
+        System.out.println("------Affichage du planning d'une oeuvre ------");
+        AffichagePlanning();
+ 
         //System.out.println("------Test Recherche par Nom de l'oeuvre ------");
         //TestRechercheParNom();
         
