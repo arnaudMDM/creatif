@@ -74,29 +74,6 @@ public class OeuvreDao {
         return query.getResultList();
     }
 
-//    public List<Oeuvre> findOeuvreByPrixArtiste( String unArtiste, float prix, Comparaison comparaison)
-//    {
-//        Query query = null;
-//
-//        switch (comparaison)
-//        {
-//            case SUP:
-//              query  = JpaUtil.getEntityManager().createQuery("select e from Oeuvre e "
-//                      + "WHERE e.prix > :prix AND e.artiste.nom = :artiste");
-//              break;
-//            case INF:
-//              query = JpaUtil.getEntityManager().createQuery("select e from Oeuvre e "
-//                      + "WHERE e.prix < :prix AND e.artiste.nom = :artiste");
-//              break;
-//            case EGAL:
-//                query = JpaUtil.getEntityManager().createQuery("select e from Oeuvre e "
-//                        + "WHERE e.prix = :prix AND e.artiste.nom = :artiste");
-//              break;
-//        }
-//              query.setParameter("prix", prix);
-//              query.setParameter("artiste", unArtiste);
-//        return query.getResultList();
-//    }
     
         public List<Oeuvre> findOeuvreByPrixArtisteDate( int unIdArtiste, float prix, Comparaison comparaison, Date dateDeb,Date dateFin)
     {

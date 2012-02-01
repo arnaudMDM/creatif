@@ -6,14 +6,10 @@
 package modele;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 /**
  *
@@ -31,9 +27,6 @@ public class Artiste implements Serializable{
         return idArtiste;
     }
 
-//    public List<Oeuvre> getListeOeuvres() {
-//        return listeOeuvres;
-//    }
 
     public String getBiographie() {
         return biographie;
@@ -46,8 +39,6 @@ public class Artiste implements Serializable{
     protected String prenom;
     protected String nom;
 
-//    @OneToMany(mappedBy = "artiste")
-//    protected List<Oeuvre> listeOeuvres = new ArrayList<Oeuvre>();
 
     protected String biographie;
 
@@ -64,10 +55,6 @@ public class Artiste implements Serializable{
         return prenom;
     }
 
-//    public void ajouterOeuvre(Oeuvre oeuvre)
-//    {
-//        listeOeuvres.add(oeuvre);
-//    }
 
 
 

@@ -163,6 +163,7 @@ public class Service {
          List<Oeuvre> listeOeuvres;
                   JpaUtil.openEntityManager();
                   listeOeuvres = oeuvreDao.findOeuvreByNom(nomOeuvre);
+                  System.out.println(listeOeuvres.size());
                   JpaUtil.closeEntityManager();
                   return listeOeuvres;
      }
@@ -185,21 +186,6 @@ public class Service {
                   return listeOeuvres;
      }
 
-//     public List<Oeuvre> rechercherOeuvreParPrixArtiste(String artiste, float prix, Comparaison comparaison)
-//     {
-//         List<Oeuvre> listeOeuvres;
-//                  JpaUtil.openEntityManager();
-//                  if (artiste.equals("*"))
-//                  {
-//                        listeOeuvres = oeuvreDao.findOeuvreByPrix(prix, comparaison);
-//                  }
-//                  else
-//                  {
-//                        listeOeuvres = oeuvreDao.findOeuvreByPrixArtiste(artiste, prix, comparaison);
-//                  }
-//                  JpaUtil.closeEntityManager();
-//                  return listeOeuvres;
-//     }
      
           public List<Oeuvre> rechercherOeuvreParPrixArtisteDate(int idArtiste, 
                   float prix, Comparaison comparaison, Date dateDeb, Date dateFin)

@@ -22,39 +22,25 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-//    public static List<Client> listeClientsRef;;
-//    public static List<Oeuvre> listeOeuvresRef;
-//    public static List<Gallerie> listeGalleriesRef;
-//    public static List<Artiste> listeArtistesRef;
     
     public static Service service = new Service();
     
     public static void Initialisation()
     {
-//        listeClientsRef = new ArrayList<Client>();
-//        listeOeuvresRef = new ArrayList<Oeuvre>();
-//        listeGalleriesRef = new ArrayList<Gallerie>();
-//        listeArtistesRef = new ArrayList<Artiste>();
         
         Client client = new Client("20 avenue albert einstein", "69100", "Villeurbanne", 0612121212, "Jean", "Dupont");
-//        listeClientsRef.add(client);
         service.creerClient(client);
 
         Date dateDeb = new Date(112,5,12);
         Date dateFin = new Date(112,5,28);
         Gallerie gallerie = new Gallerie(dateDeb,dateFin);
-//       listeGalleriesRef.add(gallerie);
 
         Artiste artiste = new Artiste("heu", "test ","C'est");
-//        listeArtistesRef.add(artiste);
         service.creerArtiste(artiste);
 
         Peinture oeuvre = new Peinture("Monochrome test","pigment et résine synthétique sur toile",124,"50x150");
-//       listeOeuvresRef.add(oeuvre);
         Peinture oeuvre2 = new Peinture("Monochrome jaune","pigment et résine synthétique sur toile",154,"50x150");
-//        listeOeuvresRef.add(oeuvre2);
         Sculpture oeuvre3 = new Sculpture("Monochrome marron","pigment et résine synthétique sur toile",154,"50x150");  
-//        listeOeuvresRef.add(oeuvre3);
         service.creerOeuvre(oeuvre, artiste);
         service.creerOeuvre(oeuvre2, artiste);
         service.creerOeuvre(oeuvre3, artiste);
@@ -439,7 +425,6 @@ public class Main {
         String dateDeb;
         String dateFin;
         System.out.println("Plannig");
-        System.out.println("\n");
         System.out.println("Oeuvre : " + oeuvre.getNom() + ", ID : " + oeuvre.getOeuvreId());
         for(Gallerie g : oeuvre.getListeGalleries())
         {
@@ -460,6 +445,7 @@ public class Main {
         Oeuvre oeuvre = service.rechercherOeuvreParId(idOeuvre);
         AffichagePlanningOeuvre(oeuvre);
         
+        System.out.println("");
         String nom = Saisie.lireChaine("Indiquer le nom de l'oeuvre : ");
         List<Oeuvre> listeOeuvres = service.rechercherOeuvreParNom(nom);
         AfficherListeOeuvres(listeOeuvres);
@@ -554,140 +540,7 @@ public class Main {
         System.out.println("------Affichage du planning d'une oeuvre ------");
         AffichagePlanning();
  
-        //System.out.println("------Test Recherche par Nom de l'oeuvre ------");
-        //TestRechercheParNom();
-        
-//        System.out.println("------Test Recherche par Artiste et Prix ------");
-//        TestRechercheParArtisteEtPrix();
-//        
-//        System.out.println("------Test de tous les artistes ------");
-//        //TestArtistes();      
-//        
-        
-//        System.out.println("------Test de validation de la gallerie ------");
-        
-    }
-    
-    public void Old () {
-          //Creation d'un client
-     /*  Client client = new Client("20 avenue albert einstein", "69100", "Villeurbanne", 0612121212);
-        service.creerClient(client);
 
-        Date dateDeb = new Date(112,5,12);
-        Date dateFin = new Date(112,5,28);
-        Date dateLivraison = new Date(112, 5, 10);
-        int prixTotal = 2000;
-        Gallerie gallerie = new Gallerie(dateDeb,dateFin,prixTotal,dateLivraison);
-
-
-
-        
-
-        Artiste artiste = new Artiste("test ","C'est");
-        service.creerArtiste(artiste);
-
-        Peinture oeuvre = new Peinture("Monochrome test","pigment et résine synthétique sur toile",124,"50x150");
-        Peinture oeuvre2 = new Peinture("Monochrome jaune","pigment et résine synthétique sur toile",154,"50x150");
-        Peinture oeuvre3 = new Peinture("Monochrome marron","pigment et résine synthétique sur toile",154,"50x150");        
-        service.creerOeuvre(oeuvre, artiste);
-        service.creerOeuvre(oeuvre2, artiste);
-        service.creerOeuvre(oeuvre3, artiste);
-        List <Oeuvre> lOeuvre = new ArrayList<Oeuvre> ();
-        lOeuvre.add(oeuvre);
-        lOeuvre.add(oeuvre2);
-        lOeuvre.add(oeuvre3);
-
-        service.creerGallerie(gallerie, client, lOeuvre);
-
-        //List<Oeuvre> listeOeuvre2;
-        //listeOeuvre2 = service.rechercherOeuvrePardate(new Date(112,4,12), new Date(112,6,28));
-        //listeOeuvre2 = service.rechercherOeuvreParNom("Monochrome jau");
-        //listeOeuvre2 = service.rechercherOeuvreParPrixEtNom("test", 154, Comparaison.INF);
-       /* for(Oeuvre o : listeOeuvre2)
-        {
-            System.out.println(o.getOeuvreId());
-        }*/
-        
-        
-//        Client c = null;
-//        String reponse;
-//        List<Oeuvre> catalogue = null;
-//        while(c == null)
-//        {
-//            reponse = Saisie.lireChaine("Entrez votre code client : ");
-//            try
-//            {
-//            c = service.connexionClient(Integer.parseInt(reponse));
-//            }
-//            catch(Exception e)
-//            {
-//                System.out.println("Code incorrect");                                
-//            }
-//        }
-//        boolean quitter = false;
-//        while (!quitter)
-//        {
-//            reponse = Saisie.lireChaine("\n---MENU---\n"
-//                    + "Quitter (0)\n"
-//                    + "Creer Gallerie (1)\n"
-//                    + "Affichage catalogue (2)\n\n"
-//                    + "veuillez choisir un numéro : ");
-//            switch (Integer.parseInt(reponse))
-//            {
-//                case 0 : quitter = true;
-//                break;
-//                
-//                case 1: 
-//                {
-//                    Gallerie gallerie = new Gallerie();
-//                    List<Oeuvre> oeuvre = new ArrayList<Oeuvre>();
-//
-//                    reponse = Saisie.lireChaine("\n---CREER GALLERIE---\n"
-//                        + "Retour à l'accueil (0)\n"    
-//                        + "Rechercher par nom d'une oeuvre (1)\n"
-//                        + "Rechercher par Artiste et Par Prix (2)\n\n"
-//                        + "veuillez choisir un numéro : ");  
-//                    switch (Integer.parseInt(reponse))
-//                    {
-//                        case 0: 
-//                            break;
-//                        case 1:
-//                        {
-//                            reponse = Saisie.lireChaine("Indiquer le nom de l'oeuvre : ");
-//                            catalogue = service.rechercherOeuvreParNom(reponse);
-//                            System.out.println(catalogue.size());
-//                            int i = 1;
-//                            System.out.println("Revenir à l'accueil (0)");
-//                            for(Oeuvre o : catalogue)
-//                            {
-//                                System.out.println(o.getArtiste().getNomArtiste() +'\t' + o.getTitre() + Float.toString(o.getPrix())+"\t("+i+")");
-//                                i++;
-//                            }
-//                            reponse = Saisie.lireChaine("\nVeuillez choisir un numéro : ");
-//                            int index = Integer.parseInt(reponse);
-//                            if( index > 0 && index < i)
-//                            {
-//                                oeuvre.add(catalogue.get(index -1));
-//                            }
-//                            break;
-//                        }
-//                        case 2:
-//                        {
-//                            
-//                            break;
-//                        }
-//                    }
-//                    break;                    
-//                }
-//                
-//                case 2:
-//                    break;
-//                
-//                default:
-//                    break;
-//
-//            }
-//        }
     }
 
 }
