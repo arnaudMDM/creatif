@@ -88,4 +88,6 @@ public class Gallerie implements Serializable {
             prixTotal += o.getPrix();
         }
     }
+    
+
 }
