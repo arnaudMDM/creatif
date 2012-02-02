@@ -44,7 +44,7 @@ public class Main {
         Artiste artiste1 = new Artiste("Yves", "Kein","Peintre contemporain");
         service.creerArtiste(artiste1);
         
-        Artiste artiste2 = new Artiste("Jean", "Renoir", "Peinre impressioniste");
+        Artiste artiste2 = new Artiste("Auguste", "Renoir", "Peinre impressioniste");
         service.creerArtiste(artiste2);
 
         Peinture oeuvre = new Peinture("Monochrome test","pigment et résine synthétique sur toile",124,"50x150");
