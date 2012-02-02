@@ -18,16 +18,16 @@ import javax.persistence.*;
  */
 
 @Entity
-public class Gallerie implements Serializable {
+public class Galerie implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected int gallerieId;
+    protected int galerieId;
 
     @ManyToOne
     private Client client;
 
-    @ManyToMany(mappedBy = "listeGalleries")
+    @ManyToMany(mappedBy = "listeGaleries")
     private List<Oeuvre> listeOeuvres = new ArrayList<Oeuvre>();
     
     
@@ -53,17 +53,17 @@ public class Gallerie implements Serializable {
         return prixTotal;
     }
 
-    public Gallerie() {
+    public Galerie() {
     }
 
-    public Gallerie( Date dateDebut, Date dateFin) {
+    public Galerie( Date dateDebut, Date dateFin) {
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         prixTotal = 0;
     }
 
-    public int getGallerieId() {
-        return gallerieId;
+    public int getGalerieId() {
+        return galerieId;
     }
 
     public void ajouterOeuvre(Oeuvre oeuvre)

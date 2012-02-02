@@ -9,9 +9,9 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
+import modele.Comparaison;
 import modele.Oeuvre;
 import util.JpaUtil;
-import modele.Comparaison;
 
 /**
  *
@@ -51,9 +51,9 @@ public class OeuvreDao {
         public List<Oeuvre> findOeuvreByPrixDate( float prix, Comparaison comparaison, Date dateDeb,Date dateFin)
     {
         Query query = null;
-        String dateRequest = "(e1.oeuvreId NOT IN (Select e2.oeuvreId from Gallerie g1, IN (g1.listeOeuvres) e2) "
+        String dateRequest = "(e1.oeuvreId NOT IN (Select e2.oeuvreId from Galerie g1, IN (g1.listeOeuvres) e2) "
                     + "OR e1.oeuvreId IN (select e3.oeuvreId from Oeuvre e3 , "
-                    + "IN (e3.listeGalleries) g2 where g2.dateDebut > :dateFin OR g2.dateFin < :dateDeb))";
+                    + "IN (e3.listeGaleries) g2 where g2.dateDebut > :dateFin OR g2.dateFin < :dateDeb))";
         String order = "order by e1.nom";
 
         switch (comparaison)
@@ -78,9 +78,9 @@ public class OeuvreDao {
         public List<Oeuvre> findOeuvreByPrixArtisteDate( int unIdArtiste, float prix, Comparaison comparaison, Date dateDeb,Date dateFin)
     {
         Query query = null;
-        String dateRequest = "(e1.oeuvreId NOT IN (Select e2.oeuvreId from Gallerie g1, IN (g1.listeOeuvres) e2) "
+        String dateRequest = "(e1.oeuvreId NOT IN (Select e2.oeuvreId from Galerie g1, IN (g1.listeOeuvres) e2) "
             + "OR e1.oeuvreId IN (select e3.oeuvreId from Oeuvre e3 , "
-            + "IN (e3.listeGalleries) g2 where g2.dateDebut > :dateFin OR g2.dateFin < :dateDeb))";
+            + "IN (e3.listeGaleries) g2 where g2.dateDebut > :dateFin OR g2.dateFin < :dateDeb))";
         String order = "order by e1.nom";
 
         switch (comparaison)
@@ -110,9 +110,9 @@ public class OeuvreDao {
     {
         String order = "order by e1.nom";
         Query query = JpaUtil.getEntityManager().createQuery("select e1 from Oeuvre e1 "
-                + "WHERE (UPPER(e1.nom) LIKE :nomOeuvre) AND (e1.oeuvreId NOT IN (Select e2.oeuvreId from Gallerie g1, IN (g1.listeOeuvres) e2) "
+                + "WHERE (UPPER(e1.nom) LIKE :nomOeuvre) AND (e1.oeuvreId NOT IN (Select e2.oeuvreId from Galerie g1, IN (g1.listeOeuvres) e2) "
                     + "OR e1.oeuvreId IN (select e3.oeuvreId from Oeuvre e3 , "
-                    + "IN (e3.listeGalleries) g2 where g2.dateDebut > :dateFin OR g2.dateFin < :dateDeb))" + order);
+                    + "IN (e3.listeGaleries) g2 where g2.dateDebut > :dateFin OR g2.dateFin < :dateDeb))" + order);
         query.setParameter("nomOeuvre", '%'+ nomOeuvre.toUpperCase()+'%');
         query.setParameter("dateDeb", dateDeb, TemporalType.DATE);
         query.setParameter("dateFin", dateFin, TemporalType.DATE);
@@ -136,13 +136,13 @@ public class OeuvreDao {
         public List<Oeuvre> findOeuvreByDate(Date dateDeb,Date dateFin)
     {
         String order = "order by e1.nom";
-        //recherche des oeuvres dont les galleries associées ne correspondent
-        //pas à cette fourchette de date et recherche des oeuvres qui ne sont associées à aucune gallerie
+        //recherche des oeuvres dont les galeries associées ne correspondent
+        //pas à cette fourchette de date et recherche des oeuvres qui ne sont associées à aucune galerie
         Query query = JpaUtil.getEntityManager().createQuery
                 ("select e1 from Oeuvre e1 WHERE e1.oeuvreId "
-                + "NOT IN (Select e2.oeuvreId from Gallerie g1, IN (g1.listeOeuvres) e2) "
+                + "NOT IN (Select e2.oeuvreId from Galerie g1, IN (g1.listeOeuvres) e2) "
                 + "OR e1.oeuvreId IN (select e3.oeuvreId from Oeuvre e3 , "
-                + "IN (e3.listeGalleries) g2 where g2.dateDebut > :dateFin OR g2.dateFin < :dateDeb)" + order);
+                + "IN (e3.listeGaleries) g2 where g2.dateDebut > :dateFin OR g2.dateFin < :dateDeb)" + order);
         query.setParameter("dateDeb", dateDeb, TemporalType.DATE);
         query.setParameter("dateFin", dateFin, TemporalType.DATE);
         return query.getResultList();

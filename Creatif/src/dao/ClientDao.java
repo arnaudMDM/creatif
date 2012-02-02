@@ -7,7 +7,6 @@ package dao;
 
 import javax.persistence.Query;
 import modele.Client;
-import modele.Gallerie;
 import util.JpaUtil;
 
 /**

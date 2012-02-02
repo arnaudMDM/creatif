@@ -22,7 +22,7 @@ public class Client implements Serializable {
     protected int clientId;
 
     @OneToMany(mappedBy = "client")
-    private List<Gallerie> listeGalleries = new ArrayList<Gallerie>();
+    private List<Galerie> listeGaleries = new ArrayList<Galerie>();
 
     protected String adresse;
 
@@ -34,12 +34,12 @@ public class Client implements Serializable {
     protected String nom;
     protected String cp;
     protected String ville;
-    protected int telephone;
+    protected String telephone;
 
     public Client() {
     }
 
-    public Client(String adresse, String cp, String ville, int telephone, String prenom, String nom) {
+    public Client(String adresse, String cp, String ville, String telephone, String prenom, String nom) {
         this.adresse = adresse;
         this.cp = cp;
         this.ville = ville;
@@ -48,8 +48,8 @@ public class Client implements Serializable {
         this.nom = nom;
     }
 
-    public List<Gallerie> getListeGalleries() {
-        return listeGalleries;
+    public List<Galerie> getListeGaleries() {
+        return listeGaleries;
     }
 
     public String getAdresse() {
@@ -68,7 +68,7 @@ public class Client implements Serializable {
         return prenom;
     }
 
-    public int getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
@@ -76,9 +76,9 @@ public class Client implements Serializable {
         return ville;
     }
 
-    public void ajouterGallerie(Gallerie gallerie)
+    public void ajouterGalerie(Galerie galerie)
     {
-        listeGalleries.add(gallerie);
+        listeGaleries.add(galerie);
     }
 
 

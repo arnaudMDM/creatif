@@ -20,7 +20,7 @@ import util.JpaUtil;
 public class Service {
 
     protected ClientDao clientDao;
-    protected GallerieDao gallerieDao;
+    protected GalerieDao galerieDao;
     protected OeuvreDao oeuvreDao;
     protected ArtisteDao artisteDao;
     protected PeintureDao peintureDao;
@@ -30,7 +30,7 @@ public class Service {
     public Service()
     {
          clientDao = new ClientDao();
-         gallerieDao = new GallerieDao();
+         galerieDao = new GalerieDao();
          oeuvreDao = new OeuvreDao();
          artisteDao = new ArtisteDao();
          peintureDao = new PeintureDao();
@@ -58,29 +58,29 @@ public class Service {
      }
 
 
-     public int creerGallerie(Gallerie gallerie, Client client, List<Oeuvre> lOeuvre){         
+     public int creerGalerie(Galerie galerie, Client client, List<Oeuvre> lOeuvre){         
          
          if(lOeuvre.size() <= 10)
          {    
             validite = 0;
             JpaUtil.openEntityManager();
             EntityTransaction tx = null;
-            client.ajouterGallerie(gallerie);
-            gallerie.setClient(client);
-            gallerie.ajouterOeuvre(lOeuvre);
-            gallerie.CalculerPrixTotal();
+            client.ajouterGalerie(galerie);
+            galerie.setClient(client);
+            galerie.ajouterOeuvre(lOeuvre);
+            galerie.CalculerPrixTotal();
             for (Oeuvre oeuvre : lOeuvre)
             {
-                oeuvre.ajouterGallerie(gallerie);
+                oeuvre.ajouterGalerie(galerie);
             }
             try {
                 tx = JpaUtil.getEntityManagerTransaction();
 
                 tx.begin();
-                gallerieDao.create(gallerie);
+                galerieDao.create(galerie);
                 for (Oeuvre oeuvre : lOeuvre)
                 {
-                    //on met à jour la base de données pour que le lien entre les oeuvres et les galleries se fassent
+                    //on met à jour la base de données pour que le lien entre les oeuvres et les galeries se fassent
                     oeuvreDao.update(oeuvre);
                 }
                 clientDao.update(client);
@@ -185,21 +185,7 @@ public class Service {
                   return listeOeuvres;
      }
 
-//     public List<Oeuvre> rechercherOeuvreParPrixArtiste(String artiste, float prix, Comparaison comparaison)
-//     {
-//         List<Oeuvre> listeOeuvres;
-//                  JpaUtil.openEntityManager();
-//                  if (artiste.equals("*"))
-//                  {
-//                        listeOeuvres = oeuvreDao.findOeuvreByPrix(prix, comparaison);
-//                  }
-//                  else
-//                  {
-//                        listeOeuvres = oeuvreDao.findOeuvreByPrixArtiste(artiste, prix, comparaison);
-//                  }
-//                  JpaUtil.closeEntityManager();
-//                  return listeOeuvres;
-//     }
+
      
           public List<Oeuvre> rechercherOeuvreParPrixArtisteDate(int idArtiste, 
                   float prix, Comparaison comparaison, Date dateDeb, Date dateFin)

@@ -24,7 +24,7 @@ public class Oeuvre implements Serializable {
         protected int oeuvreId;
 
         @ManyToMany 
-        private List<Gallerie> listeGalleries = new ArrayList<Gallerie>();
+        private List<Galerie> listeGaleries = new ArrayList<Galerie>();
 
         @ManyToOne
         private Artiste artiste;
@@ -42,9 +42,9 @@ public class Oeuvre implements Serializable {
         this.prix = prix;
     }
 
-    public void ajouterGallerie(Gallerie gallerie)
+    public void ajouterGalerie(Galerie galerie)
     {
-        listeGalleries.add(gallerie);
+        listeGaleries.add(galerie);
     }
 
     public void setArtiste(Artiste artiste)
@@ -57,9 +57,9 @@ public class Oeuvre implements Serializable {
         return oeuvreId;
     }
     
-    public List<Gallerie> getListeGalleries()
+    public List<Galerie> getListeGaleries()
     {
-        return listeGalleries;
+        return listeGaleries;
     }
 
     public Artiste getArtiste() {

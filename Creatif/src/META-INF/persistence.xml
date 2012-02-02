@@ -4,10 +4,10 @@
     <provider>oracle.toplink.essentials.PersistenceProvider</provider>
     <class>modele.Artiste</class>
     <class>modele.Client</class>
-    <class>modele.Gallerie</class>
     <class>modele.Oeuvre</class>
     <class>modele.Peinture</class>
     <class>modele.Sculpture</class>
+    <class>modele.Galerie</class>
     <properties>
       <property name="toplink.jdbc.user" value="Creatif"/>
       <property name="toplink.jdbc.password" value="Creatif"/>

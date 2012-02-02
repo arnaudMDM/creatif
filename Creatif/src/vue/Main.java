@@ -28,29 +28,46 @@ public class Main {
     public static void Initialisation()
     {
         
-        Client client = new Client("20 avenue albert einstein", "69100", "Villeurbanne", 0612121212, "Jean", "Dupont");
-        service.creerClient(client);
+        Client client1 = new Client("20 avenue albert einstein", "69100", "Villeurbanne", "0612121212", "Jean", "Dupont");
+        service.creerClient(client1);
+        Client client2 = new Client("228 cours emile zola", "69100", "Villeurbanne", "0648121212", "Fred", "Dussant");
+        service.creerClient(client2);
+        
+        Date dateDeb1 = new Date(112,5,12);
+        Date dateFin1 = new Date(112,5,28);
+        Galerie galerie1 = new Galerie(dateDeb1,dateFin1);
+        
+        Date dateDeb2 = new Date(112,4,5);
+        Date dateFin2 = new Date(112,4,29);       
+        Galerie galerie2 = new Galerie(dateDeb2, dateFin2);
 
-        Date dateDeb = new Date(112,5,12);
-        Date dateFin = new Date(112,5,28);
-        Gallerie gallerie = new Gallerie(dateDeb,dateFin);
-
-        Artiste artiste = new Artiste("heu", "test ","C'est");
-        service.creerArtiste(artiste);
+        Artiste artiste1 = new Artiste("Yves", "Kein","Peintre contemporain");
+        service.creerArtiste(artiste1);
+        
+        Artiste artiste2 = new Artiste("Jean", "Renoir", "Peinre impressioniste");
+        service.creerArtiste(artiste2);
 
         Peinture oeuvre = new Peinture("Monochrome test","pigment et résine synthétique sur toile",124,"50x150");
         Peinture oeuvre2 = new Peinture("Monochrome jaune","pigment et résine synthétique sur toile",154,"50x150");
-        Sculpture oeuvre3 = new Sculpture("Monochrome marron","pigment et résine synthétique sur toile",154,"50x150");  
-        service.creerOeuvre(oeuvre, artiste);
-        service.creerOeuvre(oeuvre2, artiste);
-        service.creerOeuvre(oeuvre3, artiste);
-        List <Oeuvre> lOeuvre = new ArrayList<Oeuvre> ();
-        lOeuvre.add(oeuvre);
-        lOeuvre.add(oeuvre2);
-        lOeuvre.add(oeuvre3);
+        Sculpture oeuvre3 = new Sculpture("Monochrome marron","pigment et résine synthétique sur toile",154,"50x150");
+        Peinture oeuvre4 = new Peinture("Bal du moulin de la Galette", "huile sur toile",10000 , "1,31x1,75");
+        service.creerOeuvre(oeuvre, artiste1);
+        service.creerOeuvre(oeuvre2, artiste1);
+        service.creerOeuvre(oeuvre3, artiste1);
+        service.creerOeuvre(oeuvre4, artiste2);
         
-
-        service.creerGallerie(gallerie, client, lOeuvre);
+        List <Oeuvre> lOeuvre1 = new ArrayList<Oeuvre> ();
+        lOeuvre1.add(oeuvre);
+        lOeuvre1.add(oeuvre2);
+        lOeuvre1.add(oeuvre3);
+        
+        service.creerGalerie(galerie1, client1, lOeuvre1);
+        
+        
+        List <Oeuvre> lOeuvre2 = new ArrayList<Oeuvre> ();
+        lOeuvre2.add(oeuvre2);
+        
+        service.creerGalerie(galerie2, client2, lOeuvre2);
         
     }
     
@@ -271,17 +288,17 @@ public class Main {
         return idArtiste;
     }
     
-    public static void ValiderGallerie (List<Oeuvre> listeOeuvres, Client unClient, Date dateDeb, Date dateFin) {
-        Gallerie uneGallerie = new Gallerie(dateDeb,dateFin);
-        service.creerGallerie(uneGallerie, unClient, listeOeuvres);
-        System.out.println("Gallerie personnelle");
+    public static void ValiderGalerie (List<Oeuvre> listeOeuvres, Client unClient, Date dateDeb, Date dateFin) {
+        Galerie uneGalerie = new Galerie(dateDeb,dateFin);
+        service.creerGalerie(uneGalerie, unClient, listeOeuvres);
+        System.out.println("Galerie personnelle");
         for(Oeuvre o : listeOeuvres)
         {
             System.out.println(o.getNom() 
                     + '\t' + o.getArtiste().getNom() +'\t' + Float.toString(o.getPrix()) + " €");
         }
         System.out.println("");
-        System.out.println("Prix Total : " + uneGallerie.getPrixTotal() + " €");
+        System.out.println("Prix Total : " + uneGalerie.getPrixTotal() + " €");
     }
     
     public static Client Connexion() {
@@ -426,7 +443,7 @@ public class Main {
         String dateFin;
         System.out.println("Plannig");
         System.out.println("Oeuvre : " + oeuvre.getNom() + ", ID : " + oeuvre.getOeuvreId());
-        for(Gallerie g : oeuvre.getListeGalleries())
+        for(Galerie g : oeuvre.getListeGaleries())
         {
             moisDeb = g.getDateDebut().getMonth()+ 1;
             anneeDeb =g.getDateDebut().getYear() + 1900;
@@ -434,7 +451,7 @@ public class Main {
             moisFin = g.getDateFin().getMonth()+ 1;
             anneeFin =g.getDateFin().getYear() + 1900;
             dateFin = g.getDateFin().getDate() + "/" + moisFin + "/" + anneeFin;
-            System.out.println(g.getGallerieId() + "\t" + dateDeb + "\t" 
+            System.out.println(g.getGalerieId() + "\t" + dateDeb + "\t" 
                     + dateFin + "\t" + g.getClient().getNom() + "\t" + g.getClient().getPrenom());
         }
     }
@@ -465,7 +482,7 @@ public class Main {
         Client client = Connexion();
         
         
-        System.out.println("\n------Démo de création de gallerie ------");
+        System.out.println("\n------Démo de création de galerie ------");
         List<Date> listeDates;
         Date dateDeb = null;
         Date dateFin = null;
@@ -484,7 +501,7 @@ public class Main {
             }
         }
         
-        System.out.println("------Ajout d'une oeuvre à la gallerie ------");
+        System.out.println("------Ajout d'une oeuvre à la galerie ------");
         oeuvre = SaisieOeuvre(catalogue);
         if(ComparerOeuvreListeOeuvres(oeuvre, listeOeuvres))
         {
@@ -499,7 +516,7 @@ public class Main {
         
         System.out.println("------Recherche d'une oeuvre par nom ------");
         catalogue = RechercheOeuvreParNom(dateDeb, dateFin);
-        System.out.println("------Ajout d'une oeuvre à la gallerie ------");
+        System.out.println("------Ajout d'une oeuvre à la galerie ------");
         oeuvre = SaisieOeuvre(catalogue);
         if(ComparerOeuvreListeOeuvres(oeuvre, listeOeuvres))
         {
@@ -513,7 +530,7 @@ public class Main {
         
         System.out.println("------Recherche d'une oeuvre par Artiste et par Prix ------");
         catalogue = RechercheOeuvreParArtistePrix(dateDeb, dateFin);
-        System.out.println("------Ajout d'une oeuvre à la gallerie ------");
+        System.out.println("------Ajout d'une oeuvre à la galerie ------");
         oeuvre = SaisieOeuvre(catalogue);
         if(ComparerOeuvreListeOeuvres(oeuvre, listeOeuvres))
         {
@@ -525,19 +542,19 @@ public class Main {
             System.out.println("Oeuvre déjà ajoutée");
         }
         
-        System.out.println("------Validation de la gallerie ------");
-        ValiderGallerie(listeOeuvres, client, dateDeb, dateFin);
+        System.out.println("------Validation de la galerie ------");
+        ValiderGalerie(listeOeuvres, client, dateDeb, dateFin);
         
         System.out.println("\n");
-        System.out.println("------Affichage du catalogue ------");
+        System.out.println("------Démo de l'affichage du catalogue ------");
         AfficherCatalogue();
         
         System.out.println("\n");
-        System.out.println("------Création d'une oeuvre ------");
+        System.out.println("------Démo de la création d'une oeuvre ------");
         CreationOeuvre();
         
         System.out.println("\n");
-        System.out.println("------Affichage du planning d'une oeuvre ------");
+        System.out.println("------Démo de l'affichage du planning d'une oeuvre ------");
         AffichagePlanning();
  
 
